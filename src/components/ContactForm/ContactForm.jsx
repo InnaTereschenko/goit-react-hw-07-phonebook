@@ -1,50 +1,59 @@
-import { useReducer } from 'react';
+import { useState } from 'react';
 // import { setContacts } from 'redux/contactSlice';
 import css from './ContactForm.module.css';
-import { addContact } from 'redux/contactSlice';
+import addContacts from 'redux/contactSlice';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 
-import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export function ContactForm() {
-  const initialValue = { name: '', number: '' };
+ const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  
-  const reducer = (state, action) => {
-    switch (action.type) {
+
+  const handleInputChange = ({ target }) => {
+    const { name, value } = target;
+
+    switch (name) {
       case 'name':
-        return { ...state, name: action.payload };
+        setName(value);
+        break;
       case 'number':
-        return { ...state, number: action.payload };
-      case 'reset':
-        return initialValue;
+        setNumber(value);
+        break;
       default:
-        return state;
+        return;
     }
   };
+  
+//   const reducerInput = (state, action) => {
 
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
+//     switch (action.type) {
+//       case 'name':
+//         return { ...state, name: action.payload };
+//       case 'phone':
+//         return { ...state, number: action.payload };
+//       case 'reset':
+//         return initialValue;
+//       default:
+//         return state;
+//     }
+//   };
 
-  const [{ name, number }, dispatchReducer] = useReducer(reducer, initialValue);
+//  const initialValue = { name: '', number: '' };
 
-  const handleInputChange = evt => {
-    const { name, value } = evt.target;
-    dispatchReducer({ type: name, payload: value });
-  };
+//   const [{ name, number }, dispatchReducer] = useReducer(reducerInput, initialValue);
 
-  // switch (name) {
-  //   case 'name': ;
-  //     break;
+//   const handleInputChange = evt => {
+//     const { name, value } = evt.target;
+//     dispatchReducer({ type: name, payload: value });
+//   };
 
-  //   case 'number': setNumber(value);
-  //     break;
-
-  //   default: return;
-  // }
+  
   const isUniqueName = name => {
     const searchUnique = name.toLowerCase();
 
@@ -55,44 +64,29 @@ export function ContactForm() {
     return true;
   };
 
-  // const handleSubmit = (evt) => {
-  //  const id = nanoid();
-  //   const name = evt.name;
-  //   const number = evt.number;
-  //   const contactsLists = [...contacts];
+const handleFormSubmit = evt => {
+  evt.preventDefault();
 
-  //     if (contactsLists.findIndex(contact => name === contact.name) !== -1) {
-  //       alert(`${name} is already in contacts.`);
-  //     } else {
-  //        contactsLists.push({ name, id, number });
-  //     }
-
-  //      setContacts(contactsLists);
-  //  }
-
-  const handleFormSubmit = evt => {
-    evt.preventDefault();
-    // перевірка, чи є вже таке ім'я в контактах
-    if (isUniqueName(name)) {
-      dispatch(addContact({ id: nanoid(), name, number }));
-      
-    dispatchReducer({ type: 'reset', payload: initialValue });
-    }
+  if (isUniqueName(name)) {
+    dispatch(addContacts({ name, number }));
+    alert(`"${name}" added to your contacts`);
     
-      // Збереження контактів у localStorage
-      // localStorage.setItem('contacts', JSON.stringify(contacts));
-  };
+  }
+setName('');
+setNumber('');
+   
+};
 
-// Перший рендер, якщо в ЛС щось є - парсимо дані
-  //   useEffect(() => {
-  //       const localStContacts = localStorage.getItem('contacts');
-  //     if (localStContacts) {
-  //       dispatch(setContacts(JSON.parse(localStContacts)));
-  // }
-  //   }, [dispatch]);
-
-
-  return (
+   // const handleFormSubmit = evt => {
+  //   evt.preventDefault();
+  //   // перевірка, чи є вже таке ім'я в контактах
+  //   if (isUniqueName(name)) {
+  //     dispatch(addContact({ id: nanoid(), name, number }));
+      
+  //   dispatchReducer({ type: 'reset', payload: initialValue });
+  //   }
+    
+    return (
     <form className={css.contactForm} onSubmit={handleFormSubmit}>
       <h2 className={css.nameTxt}>Name</h2>
       <input
@@ -107,7 +101,7 @@ export function ContactForm() {
         onChange={handleInputChange}
       />
 
-      <h2 className={css.nameTxt}>Number</h2>
+      <h2 className={css.nameTxt}>PhoneNumber</h2>
       <input
         type="tel"
         name="number"

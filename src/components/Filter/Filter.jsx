@@ -1,16 +1,19 @@
 import css from './Filter.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter } from 'redux/selectors';
-import { filterContacts } from 'redux/contactSlice';
+import { selectFilter } from 'redux/selectors';
+import { setFilter } from 'redux/filterSlice';
+
 
 export const Filter = () => {
-  const filter = useSelector(getFilter);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
 
-const handleInputChange = evt => {
+const handleFilterChange = evt => {
   const value = evt.target.value;
-  dispatch(filterContacts(value.toLowerCase().trim()));
+
+   dispatch(setFilter(value.toLowerCase().trim()));
+  
 }
 
 return (
@@ -22,7 +25,7 @@ return (
       name="filter"
       placeholder="Enter filter"
       value={filter}
-      onChange={handleInputChange}
+      onChange={handleFilterChange}
     />
   </div>
 );

@@ -1,37 +1,30 @@
 import { ContactForm } from './ContactForm/ContactForm';
-import {ContactList} from './ContactList/ContactList';
-import {Filter} from './Filter/Filter';
-
-import { getContacts } from 'redux/selectors';
-import { useSelector} from 'react-redux';
-
+import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
+import { useEffect } from 'react';
+import { selectContacts } from 'redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchContacts } from 'redux/operetions';
 
 export function App() {
-  const contacts = useSelector(getContacts);
- 
-    
+  const contacts = useSelector(selectContacts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
-        <div>
+    <div>
       <h1 className="mainTitle">Phonebook</h1>
       <ContactForm />
-      {contacts.length > 0 && 
+      {contacts.length > 0 && (
         <>
-      <Filter />
-      <ContactList />
-        </>
-      }
-      
-        </div>
-      
-    // <div>
-    //   <h1 className="mainTitle">Phonebook</h1>
+          <Filter />
 
-    //   <ContactForm handleSubmit={handleSubmit} />
-    //   <Filter filter={filter} handleInputChange={handleInputChange} />
-    //   <ContactList
-    //     contacts={getFilteredContacts()}
-    //     handleDelete={handleDelete}
-    //   />
-    // </div>
+          <ContactList />
+        </>
+      )}
+    </div>
   );
 }
