@@ -12,7 +12,7 @@ export function ContactForm() {
  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
 
   const handleInputChange = ({ target }) => {
@@ -23,7 +23,7 @@ export function ContactForm() {
         setName(value);
         break;
       case 'number':
-        setNumber(value);
+        setPhone(value);
         break;
       default:
         return;
@@ -68,12 +68,12 @@ const handleFormSubmit = evt => {
   evt.preventDefault();
 
   if (isUniqueName(name)) {
-    dispatch(addContacts({ name, number }));
+    dispatch(addContacts({ name, phone }));
     alert(`"${name}" added to your contacts`);
     
   }
 setName('');
-setNumber('');
+setPhone('');
    
 };
 
@@ -110,13 +110,13 @@ setNumber('');
         required
         className={css.formTel}
         placeholder="Please enter phone number"
-        value={number}
+        value={phone}
         onChange={handleInputChange}
       />
       <button
         className={css.addContactBtn}
         type="submit"
-        disabled={!name || !number}
+        disabled={!name || !phone}
       >
         Add contact
       </button>
