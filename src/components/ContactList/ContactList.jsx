@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import css from './ContactList.module.css';
 import ContactListItem from '../ContactListItem/ContactListItem';
 import { selectError, selectFilteredContacts, selectIsLoading } from 'redux/selectors';
-import deleteContact from 'redux/contactSlice';
+// import deleteContact from 'redux/contactSlice';
 import { fetchContacts } from 'redux/operetions';
 import { Loader } from 'components/Loader';
 import { useEffect } from 'react';
@@ -15,9 +15,10 @@ export const ContactList = () => {
   const filteredContacts =  useSelector(selectFilteredContacts);
 
   
-      const handleDelete = id => {
-    dispatch(deleteContact(id));
-  };
+  // const handleDelete = id => {
+  //       console.log("Deleting contact with id:", id);
+  //   dispatch(deleteContact(id));
+  // };
   
   useEffect(() => {
     dispatch(fetchContacts())
@@ -40,7 +41,7 @@ export const ContactList = () => {
                   id={id}
                   name={name}
                   phone={phone}
-                  handleDelete={() => handleDelete(id)}
+                  // handleDelete={() => handleDelete(id)}
                 />
               )))
             }
