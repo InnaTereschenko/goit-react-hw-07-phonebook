@@ -11,6 +11,7 @@ export function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('це запрос з АПП')
     dispatch(fetchContacts());
   }, [dispatch]);
 

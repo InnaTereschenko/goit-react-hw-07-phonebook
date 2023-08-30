@@ -77,15 +77,7 @@ setPhone('');
    
 };
 
-   // const handleFormSubmit = evt => {
-  //   evt.preventDefault();
-  //   // перевірка, чи є вже таке ім'я в контактах
-  //   if (isUniqueName(name)) {
-  //     dispatch(addContact({ id: nanoid(), name, number }));
-      
-  //   dispatchReducer({ type: 'reset', payload: initialValue });
-  //   }
-    
+  
     return (
     <form className={css.contactForm} onSubmit={handleFormSubmit}>
       <h2 className={css.nameTxt}>Name</h2>
