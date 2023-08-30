@@ -39,7 +39,7 @@ export const ContactList = () => {
                   key={id}
                   id={id}
                   name={name}
-                  number={phone}
+                  phone={phone}
                   handleDelete={() => handleDelete(id)}
                 />
               )))
